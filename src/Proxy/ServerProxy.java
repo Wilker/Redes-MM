@@ -14,28 +14,26 @@ import javax.swing.JTextPane;
  *
  * @author midiacom
  */
-public class ServerProxy implements Runnable {
+public class ServerProxy {
 
-	private ServerSocket servidorSocket;
-	private int SERVER_PORT = 9999;
-	
+    private ServerSocket servidorSocket;
+    private int SERVER_PORT = 9876;
 
-	
-
-	@Override
-	public void run() {
-		try {
-			servidorSocket = new ServerSocket(SERVER_PORT);
-                        System.out.println("Proxy server listening on "+" port:\n");
-			while (true) {
-				Socket clientSocket = servidorSocket.accept();
-                                System.out.println("Client connected from " +clientSocket.getInetAddress()+"\n");
-				//new Thread(new ClienteProcessamento(clientSocket).start();
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+    public void startServer() {
+        try {
+            servidorSocket = new ServerSocket(SERVER_PORT);
+            System.out.println("Proxy server listening on port:" + SERVER_PORT + " \n");
+            while (true) {
+                Socket clientSocket = servidorSocket.accept();
+                System.out.println("Client connected from " + clientSocket.getInetAddress() + "\n");
+                ClientHandler clientHandler = new ClientHandler(clientSocket);
+                Thread thread = new Thread(clientHandler);
+                thread.run();
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 }

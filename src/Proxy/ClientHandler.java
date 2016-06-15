@@ -12,13 +12,14 @@ import javax.swing.JTextPane;
  *
  * @author midiacom
  */
-class ClienteProcessamento implements Runnable {
+class ClientHandler implements Runnable {
 
-    public ClienteProcessamento(Socket clienteSocket) {
+    public ClientHandler(Socket clienteSocket) {
     }
 
     @Override
     public void run() {
+        //TODO implementar a classe que vai lidar com a requisição dos clientes
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

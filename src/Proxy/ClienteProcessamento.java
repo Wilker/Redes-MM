@@ -14,7 +14,12 @@ import javax.swing.JTextPane;
  */
 class ClienteProcessamento implements Runnable {
 
-    public ClienteProcessamento(Socket clienteSocket, JTextPane console) {
+    public ClienteProcessamento(Socket clienteSocket) {
+    }
+
+    @Override
+    public void run() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

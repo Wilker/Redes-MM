@@ -18,23 +18,19 @@ public class ServerProxy implements Runnable {
 
 	private ServerSocket servidorSocket;
 	private int SERVER_PORT = 9999;
-	private JTextPane console = null;
+	
 
-	ServerProxy(JTextPane console) {
-		this.console = console;
-	}
-
+	
 
 	@Override
 	public void run() {
 		try {
 			servidorSocket = new ServerSocket(SERVER_PORT);
-			console.setText(console.getText() + "Servidor iniciado.\r\nEsperando por clientes...");
+                        System.out.println("Proxy server listening on "+" port:\n");
 			while (true) {
-				Socket clienteSocket = servidorSocket.accept();
-				console.setText(console.getText() + "\r\n" + "Conexão aceita do endereço "
-						+ clienteSocket.getLocalAddress().getHostAddress());
-				//new Thread(new ClienteProcessamento(clienteSocket, console)).start();
+				Socket clientSocket = servidorSocket.accept();
+                                System.out.println("Client connected from " +clientSocket.getInetAddress()+"\n");
+				//new Thread(new ClienteProcessamento(clientSocket).start();
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

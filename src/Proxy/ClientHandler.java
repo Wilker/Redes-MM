@@ -13,7 +13,9 @@ import javax.swing.JTextPane;
  * @author midiacom
  */
 class ClientHandler implements Runnable {
-
+    
+    //TODO lê de um arquivo de configuração os endereços IP's dos servidores a serem utilizados.
+    
     public ClientHandler(Socket clienteSocket) {
     }
 

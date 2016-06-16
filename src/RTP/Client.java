@@ -25,6 +25,9 @@ import javax.swing.Timer;
  */
 public class Client {
 
+   //Mark when packets arrive. To see the jitter.
+    Date date = new Date(); //TODO arrumar pra guardar o tempo em MS
+    
   //GUI
   //----
   JFrame f = new JFrame("Client");
@@ -316,6 +319,7 @@ public class Client {
 
 	//print important header fields of the RTP packet received: 
 	System.out.println("Got RTP packet with SeqNum # "+rtp_packet.getsequencenumber()+" TimeStamp "+rtp_packet.gettimestamp()+" ms, of type "+rtp_packet.getpayloadtype());
+	System.out.println("Paquete recebido em "+ date.getTime());//TODO dar um jeito de pegar esse tempo em ms
 	
 	//print header bitstream:
 	rtp_packet.printheader();

@@ -6,23 +6,33 @@
 package Proxy;
 
 import java.net.Socket;
-import javax.swing.JTextPane;
+
 
 /**
  *
  * @author midiacom
  */
 class ClientHandler implements Runnable {
+
+    private String ipIC;
+    Socket client;
+    String originIP;
     
+
     //TODO lê de um arquivo de configuração os endereços IP's dos servidores a serem utilizados.
-    
-    public ClientHandler(Socket clienteSocket) {
+    //Se vier de dentro da rede do IC mandar pra um servidor. Se vier de outra rede mandar pra outro.
+    public ClientHandler(Socket clientSocket) {
+        client = clientSocket;
     }
 
     @Override
     public void run() {
         //TODO implementar a classe que vai lidar com a requisição dos clientes
+        ServerList serverList = new ServerList();
+        ClientRedir clientRedir = new ClientRedir();
+        originIP = client.getInetAddress().getHostAddress();
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

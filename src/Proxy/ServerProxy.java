@@ -28,7 +28,7 @@ public class ServerProxy {
                 System.out.println("Client connected from " + clientSocket.getInetAddress() + "\n");
                 ClientHandler clientHandler = new ClientHandler(clientSocket);
                 Thread thread = new Thread(clientHandler);
-                thread.run();
+                thread.start();
             }
         } catch (IOException e) {
             // TODO Auto-generated catch block

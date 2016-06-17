@@ -1,0 +1,2 @@
+#lista de endereços ips que serão redirecionados para servidores específicos no seguinte formato
+#endereço_ip_Cliente nome_do_servidor

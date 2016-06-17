@@ -1,0 +1,5 @@
+#lista de servidores no seguinte formato
+#nome_do_servidor endereço_ip
+default 8.8.8.8
+
+

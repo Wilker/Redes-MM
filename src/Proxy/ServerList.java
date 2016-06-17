@@ -26,7 +26,14 @@ class ServerList extends readFromFile {
         fileName = "servers";
     }
 
+    /**
+     * Retorna o endereço IP do servidor de nome recebido como parâmetro
+     *
+     * @param nameServer
+     * @return
+     */
     String getIpServer(String nameServer) {
+        this.readServersFromFile();
         for (String string : servers.keySet()) {
             if (string.equals(nameServer)) {
                 return servers.get(string);

@@ -29,7 +29,8 @@ public class Client {
 
     /*
     TODO alterar o cliente para  se conectar primeiramente ao servidor proxy via TCP. O IP que passarei via linha de comando será inicialmente o servidor proxy
-    e o retorno sera o endereço IP do servidor para conexão do vídeo.
+    e o retorno sera o endereço IP do servidor para conexão do vídeo
+    O ip recebido então será o IP do servdor de onde será feita a conexão para streaming do vídeo.
      */
     //GUI
     //----
@@ -128,11 +129,26 @@ public class Client {
     public static void main(String argv[]) throws Exception {
         //Create a Client object
         Client theClient = new Client();
-
         //get server RTSP port and IP address from the command line
         //------------------
-        int RTSP_server_port = Integer.parseInt(argv[1]);
-        String ServerHost = argv[0];
+        /**
+         * TODO alterar o servirdor Client usage: java Client [Server hostname]
+         * [Server RTSP listening port] [Video file requested]
+         */
+
+        /*
+        TODO realizar a conexão TCP aqui com o servidor proxy e pegar o endereço IP do servidor para onde será direcionado
+        Será que devo alterar o arquivo para adicionar a porta também?
+         */
+        Socket clientSocket = new Socket(InetAddress.getByName(argv[0]), Integer.parseInt(argv[1]));
+        BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        String serverDest = inFromServer.readLine();
+        /*
+        TODO Alterar aqui para essas variáveis serem recebidas na volta da conexão TCP
+        --O servidor de vídeo será uma porta acima do servidor proxy
+         */
+        int RTSP_server_port = Integer.parseInt(argv[1])+1;
+        String ServerHost = serverDest;
         InetAddress ServerIPAddr = InetAddress.getByName(ServerHost);
 
         //get video filename to request:

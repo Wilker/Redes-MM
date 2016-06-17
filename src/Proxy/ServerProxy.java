@@ -17,7 +17,7 @@ import javax.swing.JTextPane;
 public class ServerProxy {
 
     private ServerSocket servidorSocket;
-    private int SERVER_PORT = 9876;
+    private final int SERVER_PORT = 9875;
 
     public void startServer() {
         try {

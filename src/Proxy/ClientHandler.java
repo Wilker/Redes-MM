@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author midiacom
  */
-class ClientHandler implements Runnable {
+class ClientHandler implements Runnable{
 
     private String ipIC;
     Socket client;
@@ -29,7 +29,7 @@ class ClientHandler implements Runnable {
         client = clientSocket;
     }
 
-    @Override
+ //   @Override
     public void run() {
         /*
         Fluxo a seguir -> Cliente Conecta, são carregadas as listas dos endereços 
@@ -39,6 +39,7 @@ class ClientHandler implements Runnable {
         //TODO implementar a classe que vai lidar com a requisição dos clientes
 
         ClientRedir clientRedir = new ClientRedir();
+        clientRedir.setDefaultServer(""); 
         ServerList serverList = new ServerList();
         originIP = client.getInetAddress().getHostAddress();
 
@@ -55,10 +56,11 @@ class ClientHandler implements Runnable {
         destIP = serverList.getIpServer(destName);
 
         try {
+            System.out.println("Client redirected to "+ destIP);
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
             out.writeBytes(destIP + "\n");
         } catch (IOException ex) {
-            System.out.println("Erro na conexão ao servidor");
+            System.out.println("Connection Failed");
         }
 
     }

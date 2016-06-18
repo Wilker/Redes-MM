@@ -22,10 +22,10 @@ public class ServerProxy {
     public void startServer() {
         try {
             servidorSocket = new ServerSocket(SERVER_PORT);
-            System.out.println("Proxy server listening on port:" + SERVER_PORT + " \n");
+            System.out.println("Proxy server listening on port:" + SERVER_PORT);
             while (true) {
                 Socket clientSocket = servidorSocket.accept();
-                System.out.println("Client connected from " + clientSocket.getInetAddress() + "\n");
+                System.out.println("Client connected from " + clientSocket.getInetAddress());
                 ClientHandler clientHandler = new ClientHandler(clientSocket);
                 Thread thread = new Thread(clientHandler);
                 thread.start();

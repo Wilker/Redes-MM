@@ -28,7 +28,7 @@ abstract class readFromFile {
 
     void readServersFromFile() {
         try {
-            filePath = System.getProperty("user.dir" + "/" + fileName);
+            filePath = System.getProperty("user.dir").concat("/" + fileName);
             in = new Scanner(new File(filePath));
             do {
                 String s = in.nextLine();
@@ -43,8 +43,9 @@ abstract class readFromFile {
             } while (in.hasNextLine());
 
         } catch (FileNotFoundException ex) {
-            System.out.println("Server List file not found\n");
-
+            System.out.println("Server List file not found");
+        }catch (StringIndexOutOfBoundsException ex) {
+            System.out.println("Arquivo com linhas branco não são permitidos");
         }
     }
 

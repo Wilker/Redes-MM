@@ -31,6 +31,8 @@ public class ClientRedir extends readFromFile {
      */
     String getIpRedir(String nameServer) {
         this.readServersFromFile();
+        //Posso retirar esse default daqui pois já está logo após a intanciação da classe
+        //setDefaultServer(defaultServer);
         for (String string : servers.keySet()) {
             if (string.equals(nameServer)) {
                 return servers.get(string);

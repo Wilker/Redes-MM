@@ -143,6 +143,7 @@ public class Client {
         Socket clientSocket = new Socket(InetAddress.getByName(argv[0]), Integer.parseInt(argv[1]));
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         String serverDest = inFromServer.readLine();
+        System.out.println("servidor recebido para se conectar "+serverDest);
         /*
         TODO Alterar aqui para essas variáveis serem recebidas na volta da conexão TCP
         --O servidor de vídeo será uma porta acima do servidor proxy
@@ -319,7 +320,9 @@ public class Client {
 
                 //print important header fields of the RTP packet received: 
                 System.out.println("Got RTP packet with SeqNum # " + rtp_packet.getsequencenumber() + " TimeStamp " + rtp_packet.gettimestamp() + " ms, of type " + rtp_packet.getpayloadtype());
-                System.out.println("Paquete recebido em " + date.getTime());//TODO dar um jeito de pegar esse tempo em ms
+                Calendar tempoMili = Calendar.getInstance();
+                System.out.println("Paquete recebido em " + tempoMili.getTimeInMillis());//TODO dar um jeito de pegar esse tempo em ms
+//              To pensando em colocar uma variável pra guardar o tempo do anterior. Qnd esse chegar, diminuir o tempo desse do anterior e ver o tempo que ele chegou depois.
 
                 //print header bitstream:
                 rtp_packet.printheader();

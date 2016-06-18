@@ -24,13 +24,6 @@ import javax.swing.Timer;
    ---------------------- */
 public class Server extends JFrame implements ActionListener {
 
-    static {
-        /* too late ! */
-        System.setProperty("java.awt.headless", "false");
-        System.out.println(java.awt.GraphicsEnvironment.isHeadless());
-        /* ---> prints false */
-    }
-
     //RTP variables:
     //----------------
     DatagramSocket RTPsocket; //socket to be used to send and receive UDP packets

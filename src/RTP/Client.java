@@ -10,6 +10,8 @@ import java.net.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.Timer;
 
@@ -24,8 +26,10 @@ import javax.swing.Timer;
  */
 public class Client {
 
+    FileWriter arq;
+
     //Mark when packets arrive. To see the jitter.
-    Date date = new Date(); //TODO arrumar pra guardar o tempo em MS
+    Calendar cal; //TODO arrumar pra guardar o tempo em MS
 
     /*
     TODO alterar o cliente para  se conectar primeiramente ao servidor proxy via TCP. O IP que passarei via linha de comando será inicialmente o servidor proxy
@@ -78,6 +82,16 @@ public class Client {
     //Constructor
     //--------------------------
     public Client() {
+        //calendario para guardar a hora
+        cal = Calendar.getInstance();
+
+        try {
+            System.out.println(System.getProperty("file.separator"));
+            this.arq = new FileWriter(new File(System.getProperty("user.dir").concat(System.getProperty("file.separator")).concat("log").concat("/log") + " "
+                    + cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND)), true);
+        } catch (IOException ex) {
+            System.out.println("Erro open log file");
+        }
 
         //build GUI
         //--------------------------
@@ -132,23 +146,24 @@ public class Client {
         //get server RTSP port and IP address from the command line
         //------------------
         /**
-         * TODO alterar o servirdor Client usage: java Client [Server hostname]
-         * [Server RTSP listening port] [Video file requested]
+         * Client usage: java Client [Server hostname] [Server RTSP listening
+         * port] [Video file requested]
          */
 
         /*
-        TODO realizar a conexão TCP aqui com o servidor proxy e pegar o endereço IP do servidor para onde será direcionado
-        Será que devo alterar o arquivo para adicionar a porta também?
+        * Realizada a conexão TCP aqui com o servidor proxy e pega o endereço IP do servidor para onde será direcionado
          */
         Socket clientSocket = new Socket(InetAddress.getByName(argv[0]), Integer.parseInt(argv[1]));
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         String serverDest = inFromServer.readLine();
-        System.out.println("servidor recebido para se conectar "+serverDest);
+
+        System.out.println("Server received " + serverDest);
+        theClient.arq.write("Dest IP" + serverDest + "\n");
         /*
-        TODO Alterar aqui para essas variáveis serem recebidas na volta da conexão TCP
+        DONE Alterar aqui para essas variáveis serem recebidas na volta da conexão TCP
         --O servidor de vídeo será uma porta acima do servidor proxy
          */
-        int RTSP_server_port = Integer.parseInt(argv[1])+1;
+        int RTSP_server_port = Integer.parseInt(argv[1]) + 1;
         String ServerHost = serverDest;
         InetAddress ServerIPAddr = InetAddress.getByName(ServerHost);
 
@@ -292,8 +307,14 @@ public class Client {
                 state = INIT;
                 System.out.println("New RTSP state: INIT");
 
-                //stop the timer
+                    //stop the timer
+;
                 timer.stop();
+                try {
+                    arq.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 //exit
                 System.exit(0);
@@ -310,7 +331,9 @@ public class Client {
 
             //Construct a DatagramPacket to receive data from the UDP socket
             rcvdp = new DatagramPacket(buf, buf.length);
-
+            /**
+             *
+             */
             try {
                 //receive the DP from the socket:
                 RTPsocket.receive(rcvdp);
@@ -320,10 +343,12 @@ public class Client {
 
                 //print important header fields of the RTP packet received: 
                 System.out.println("Got RTP packet with SeqNum # " + rtp_packet.getsequencenumber() + " TimeStamp " + rtp_packet.gettimestamp() + " ms, of type " + rtp_packet.getpayloadtype());
-                Calendar tempoMili = Calendar.getInstance();
-                System.out.println("Paquete recebido em " + tempoMili.getTimeInMillis());//TODO dar um jeito de pegar esse tempo em ms
-//              To pensando em colocar uma variável pra guardar o tempo do anterior. Qnd esse chegar, diminuir o tempo desse do anterior e ver o tempo que ele chegou depois.
 
+                Calendar cal = Calendar.getInstance();
+                System.out.println("Paquete recebido em " + cal.get(Calendar.MINUTE) + " " + cal.get(Calendar.SECOND) + " " + cal.get(Calendar.MILLISECOND));//TODO dar um jeito de pegar esse tempo em ms
+                arq.write(cal.get(Calendar.MINUTE) + " " + cal.get(Calendar.SECOND) + " " + cal.get(Calendar.MILLISECOND)+"\n");
+                //TODO dar um jeito de pegar esse tempo em ms
+                //To pensando em colocar uma variável pra guardar o tempo do anterior. Qnd esse chegar, diminuir o tempo desse do anterior e ver o tempo que ele chegou depois.
                 //print header bitstream:
                 rtp_packet.printheader();
 
